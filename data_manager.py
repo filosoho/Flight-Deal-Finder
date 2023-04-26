@@ -2,6 +2,7 @@ import requests
 import os
 
 SHEETY_PRICES_ENDPOINT = os.environ.get("SHEETY_PRICES_ENDPOINT")
+BEARER = os.environ.get("BEARER")
 
 
 class DataManager:
@@ -10,8 +11,12 @@ class DataManager:
         self.destination_data = {}
 
     def get_destination_data(self):
+        headers = {
+            "Authorization": f"Bearer {BEARER}",
+            "Content-Type": "application/json",
+        }
         # Use the Sheety API to GET all the data in that sheet and print it out.
-        response = requests.get(url=SHEETY_PRICES_ENDPOINT)
+        response = requests.get(url=SHEETY_PRICES_ENDPOINT, headers=headers)
         data = response.json()
         self.destination_data = data["prices"]
 
